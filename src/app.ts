@@ -12,11 +12,14 @@ dotenv.config();
 app.use(morgan('dev'));
 const PORT = process.env.PORT || 3000;
 const GATEWAY = process.env.SERVICE_NAME;
+const FLASK_SERVICE_ORDERS = process.env.FLASK_SERVICE_ORDERS || 'http://localhost:5000/ordenes';
+const FLASK_SERVICE_ORDER_PRODUCTS = process.env.FLASK_SERVICE_ORDER_PRODUCTS || 'http://localhost:5000/ordenes_productos';
 
-app.use('/api/v1/orders', proxy('http://localhost:3002'));
-app.use('/api/v1/products', proxy('http://localhost:3001'));
+// Configuración de las rutas de proxy
+app.use('/api/v1/orders', proxy(FLASK_SERVICE_ORDERS));
+app.use('/api/v1/order-products', proxy(FLASK_SERVICE_ORDER_PRODUCTS));
 
-// rutas de auth
+// rutas de auth (puedes añadir aquí si tienes alguna)
 
 app.listen(PORT, () => {
     console.log(`Servicio ${GATEWAY} corriendo en http://localhost:${PORT}`);
